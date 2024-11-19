@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos</title>
+    <link rel="stylesheet" href="style.css"> <!-- Vinculamos el archivo CSS -->
+</head>
+<body>
+
+    <!-- Formulario para insertar productos -->
+    <form id="productForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" required>
+
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" name="precio" required>
+
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad" required>
+
+        <button type="submit">Insertar Producto</button>
+    </form>
+
+    <!-- Botón para consultar productos -->
+    <button id="consultarProductos">Consultar Productos</button>
+
+    <!-- Tabla para mostrar los productos -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody id="tdatosProductos">
+            <!-- Aquí se llenarán los productos -->
+        </tbody>
+    </table>
+
+    <script>
+        // Código de inserción de productos
+        document.getElementById('productForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = document.getElementById('productForm');
+            const formData = new FormData(form);
+            const jsonData = JSON.stringify(Object.fromEntries(formData));
+    
+            fetch('/insertProducto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data); // Alerta el mensaje del servidor
+                form.reset(); // Resetea el formulario después de insertar
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    
+        // Código de consulta de productos
+        document.getElementById('consultarProductos').addEventListener('click', function(event) {
+            event.preventDefault();
+            fetch('/getAllProductos')
+            .then(response => response.json())
+            .then(data => {
+                let htmlContent = ``;
+                data.map(producto => {
+                    htmlContent += `<tr>
+                        <td>${producto.nombre}</td>
+                        <td>${producto.descripcion}</td>
+                        <td>${producto.precio}</td>
+                        <td>${producto.cantidad}</td>
+                    </tr>`;
+                });
+                document.getElementById("tdatosProductos").innerHTML = htmlContent;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>    
+
+</body>
+</html>

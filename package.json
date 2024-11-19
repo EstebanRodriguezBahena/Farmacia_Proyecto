@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  },
+  "name": "farmacia_proyecto_equipo",
+  "version": "1.0.0",
+  "description": "Proyecto para la gestión de farmacia en una PyME.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Esteban Rodriguez Bahena y Azenet Gualupe Morales Balan",
+  "license": "ISC"
+}
