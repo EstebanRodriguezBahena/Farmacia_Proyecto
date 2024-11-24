@@ -1,56 +1,182 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Productos</title>
-    <link rel="stylesheet" href="style.css"> <!-- Vinculamos el archivo CSS -->
+    <title>Gestión de Farmacia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        form label {
+            flex: 1 1 100px;
+            font-weight: bold;
+        }
+
+        form input, form button {
+            flex: 2 1 calc(100% - 120px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        form button {
+            flex: 1 1 auto;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        form button:hover {
+            background-color: #218838;
+        }
+
+        button#consultarProductos {
+            background-color: #17a2b8;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button#consultarProductos:hover {
+            background-color: #138496;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>Gestión de Farmacia</h1>
+    </header>
+    <main>
+        <!-- Formulario para insertar productos -->
+        <h2>Insertar Producto</h2>
+        <form id="productForm">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" name="descripcion" required>
+            <label for="precio">Precio:</label>
+            <input type="number" step="0.01" id="precio" name="precio" required>
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" name="cantidad" required>
+            <button type="submit">Insertar Producto</button>
+        </form>
 
-    <!-- Formulario para insertar productos -->
-    <form id="productForm">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <!-- Formulario para actualizar productos -->
+        <h2>Actualizar Producto</h2>
+        <form id="updateForm">
+            <label for="updateId">ID del Producto:</label>
+            <input type="number" id="updateId" name="id" required>
+            <label for="updateNombre">Nombre:</label>
+            <input type="text" id="updateNombre" name="nombre" required>
+            <label for="updateDescripcion">Descripción:</label>
+            <input type="text" id="updateDescripcion" name="descripcion" required>
+            <label for="updatePrecio">Precio:</label>
+            <input type="number" step="0.01" id="updatePrecio" name="precio" required>
+            <label for="updateCantidad">Cantidad:</label>
+            <input type="number" id="updateCantidad" name="cantidad" required>
+            <button type="submit">Actualizar Producto</button>
+        </form>
 
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion" required>
+        <!-- Formulario para eliminar productos -->
+        <h2>Eliminar Producto</h2>
+        <form id="deleteForm">
+            <label for="deleteId">ID del Producto:</label>
+            <input type="number" id="deleteId" name="id" required>
+            <button type="submit">Eliminar Producto</button>
+        </form>
 
-        <label for="precio">Precio:</label>
-        <input type="number" id="precio" name="precio" required>
+        <!-- Botón para consultar todos los productos -->
+        <h2>Consultar Productos</h2>
+        <button id="consultarProductos">Consultar Productos</button>
 
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" name="cantidad" required>
-
-        <button type="submit">Insertar Producto</button>
-    </form>
-
-    <!-- Botón para consultar productos -->
-    <button id="consultarProductos">Consultar Productos</button>
-
-    <!-- Tabla para mostrar los productos -->
-    <table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-            </tr>
-        </thead>
-        <tbody id="tdatosProductos">
-            <!-- Aquí se llenarán los productos -->
-        </tbody>
-    </table>
-
+        <!-- Tabla para mostrar los productos -->
+        <h3>Productos Registrados</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody id="tdatosProductos"></tbody>
+        </table>
+    </main>
     <script>
-        // Código de inserción de productos
+        // Código para insertar productos
         document.getElementById('productForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const form = document.getElementById('productForm');
-            const formData = new FormData(form);
-            const jsonData = JSON.stringify(Object.fromEntries(formData));
-    
+            const form = new FormData(document.getElementById('productForm'));
+            const jsonData = JSON.stringify(Object.fromEntries(form));
+
             fetch('/insertProducto', {
                 method: 'POST',
                 headers: {
@@ -60,32 +186,69 @@
             })
             .then(response => response.text())
             .then(data => {
-                alert(data); // Alerta el mensaje del servidor
-                form.reset(); // Resetea el formulario después de insertar
+                alert(data);
+                document.getElementById('productForm').reset();
             })
             .catch(error => console.error('Error:', error));
         });
-    
-        // Código de consulta de productos
-        document.getElementById('consultarProductos').addEventListener('click', function(event) {
+
+        // Código para actualizar productos
+        document.getElementById('updateForm').addEventListener('submit', function(event) {
             event.preventDefault();
+            const id = document.getElementById('updateId').value;
+            const form = new FormData(document.getElementById('updateForm'));
+            const jsonData = JSON.stringify(Object.fromEntries(form));
+
+            fetch(`/updateProducto/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                document.getElementById('updateForm').reset();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Código para eliminar productos
+        document.getElementById('deleteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const id = document.getElementById('deleteId').value;
+
+            fetch(`/deleteProducto/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                document.getElementById('deleteForm').reset();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Código para consultar productos
+        document.getElementById('consultarProductos').addEventListener('click', function() {
             fetch('/getAllProductos')
             .then(response => response.json())
             .then(data => {
                 let htmlContent = ``;
-                data.map(producto => {
+                data.forEach(producto => {
                     htmlContent += `<tr>
+                        <td>${producto.id}</td>
                         <td>${producto.nombre}</td>
                         <td>${producto.descripcion}</td>
                         <td>${producto.precio}</td>
                         <td>${producto.cantidad}</td>
                     </tr>`;
                 });
-                document.getElementById("tdatosProductos").innerHTML = htmlContent;
+                document.getElementById('tdatosProductos').innerHTML = htmlContent;
             })
             .catch(error => console.error('Error:', error));
         });
-    </script>    
-
+    </script>
 </body>
 </html>

@@ -34,6 +34,24 @@ db.serialize(() => {
     console.log("Tabla 'clientes' y 'productos' creadas o ya existen.");
 });
 
+// Crear tabla de ventas (si no existe)
+db.run(`
+    CREATE TABLE IF NOT EXISTS ventas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        productoId INTEGER,
+        cantidad INTEGER,
+        fechaVenta TEXT,
+        totalVenta REAL,
+        FOREIGN KEY (productoId) REFERENCES productos(id)
+    )
+`, (err) => {
+    if (err) {
+        console.error("Error al crear la tabla ventas:", err.message);
+    } else {
+        console.log("Tabla de ventas creada o ya existe");
+    }
+});
+
 // Cerrar la conexión a la base de datos
 db.close((err) => {
     if (err) {
